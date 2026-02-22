@@ -1,6 +1,35 @@
 # Sleep-Consolidated Learning and Plasticity Decay
 ## Introduction
+Language Models (LMs), while powerful, are extremely resource-intensive to train. 
+Effective LMs require hundreds of times more data to build an understanding of language than human children, often more text than a human will ever be exposed to in their entire lifetime. 
+For example, ELMo and BERT were both trained on billions of words, RoBERTa was trained on 30 billion words, and Meta AI’s Llama 4 was trained on around 30 trillion words<sup>11</sup>,<sup>1</sup>.
+In comparison,<sup>3</sup> estimate that human children are exposed to about 3 million to 11 million words per year.
+That means in order to acquire and use language in a meaningful way, LMs see hundreds to millions of years’ worth of linguistic content<sup>11</sup>.
+The resource requirements to build an effective language model from random initialization (also known as pre-training) restrict language model research to larger organizations with lots of funding, making academic research of LM pre-training difficult and costly.
 
+Most neural language models are also trained on data over multiple epochs.
+This means that over the course of a training run, the model will see the same dataset anywhere from hundreds to thousands of times.
+This is entirely different from how humans acquire language: we live through every day once, and experience everything only once.
+In addition to not being cognitively plausible, epoch training also potentially wastes computational resources.
+Different samples of the data will have different difficulty levels that determine how easily the model can learn their patterns.
+Epoch training means that even after the model has mastered easier samples, it is still re-trained on those same samples in the same contexts as before, leading to overfitting and shortcut learning, where the model picks up on spurious relationships rather than learning real semantic content<sup>13</sup>.
+This disconnect between the training schedules of LMs and human language acquisition not only could contribute to their inefficiency, but also means that there are strong limitations in the use and interpretation of LMs as cognitive models.
+
+Humans, however, do revisit experiences in a critical stage for cognitive development: sleep.
+Neuroscience research has shown that sleep is not just a period of rest, but critical for developing memories.
+While the waking brain is optimized for encoding new experiences into memory, during sleep, the brain undergoes a process called *memory consolidation*, where they are stabilized and integrated into pre-existing synaptic networks rasch2013sleep.
+This two-stage process for memory formation assumes that, because long-term memory stores take longer to train and short-term memory is easily overwritten by new experiences, sleep provides an essential off-line environment, where recent experiences are revisited repeatedly to gradually integrate into long-term stores without overwriting older memories<sup>5</sup>.
+By consolidating abstract representations of our memories in sleeping periods, humans also retain world knowledge and episodic memory of recent events (declarative memory) as well as intuition and unconscious long-term memories that influence their behavior (non-declarative memory), both of which are important for learning complex skills such as language rasch2013sleep.
+
+Another process that happens during sleep as a part of *memory consolidation* is *synaptic homeostasis*.
+During waking hours, synapses are constantly strengthening and firing strongly, making it easier to learn and encode new information.
+However, this comes with a high resource cost; stronger synaptic connections need more energy and place extra stress on neurons<sup>10</sup>.
+Additionally, neurons with stronger synaptic connections may fire for random chance, effectively wasting resources<sup>2</sup>.
+Thus, during sleep, synapses renormalize through a down-selection process.
+As memories are revisited, synapses that consistently fire strongly are kept, whereas synapses that do not fire as strongly are downscaled.
+This has the effect that important synapses with strong signals are strengthened and consolidated, becoming more resistant to decay, while less important connections are reduced or even pruned to reduce resource costs<sup>10</sup>.
+
+It is clear that sleep is a process of utmost importance for cognitive development, and contributes to how humans are able to quickly encode and retain information from recent experiences without truly experiencing them more than once. In this project, will explore sleep-inspired, cognitively-plausible training schedules for language models in the hopes of producing data-efficient training paradigms that diverge from standard multi-epoch conventions.
 ## Methods
 
 ## Results
