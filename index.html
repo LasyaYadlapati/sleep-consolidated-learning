@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sleep-Consolidated Learning and Plasticity Decay</title>
+    <link rel="stylesheet" href="styles.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div class="cover-background">
+      <div class="cover-content">
+        <p class="cover-header">
+          Halıcıoğlu Data Science Institute * Capstone Project
+        </p>
+        <h1 class="cover-title">
+          Sleep-Consolidated Learning and Plasticity Decay
+        </h1>
+        <p class="cover-one-liner">
+          Less cramming, more sleeping. Can language models learn that way too?
+        </p>
+        <div class="cover-people">
+          <div class="cover-author">
+            <span class="author-name">Peter Shamoun</span>
+            <span class="author-email">pshamoun@ucsd.edu</span>
+          </div>
+          <div class="cover-author">
+            <span class="author-name">Lasya Yadlapati</span>
+            <span class="author-email">syadlapati@ucsd.edu</span>
+          </div>
+          <div class="cover-author">
+            <span class="author-name">Tianqi Zhang</span>
+            <span class="author-email">tiz019@ucsd.edu</span>
+          </div>
+        </div>
+        <div class="cover-mentor">
+          <span class="author-name">Alex Warstadt (Mentor)</span>
+          <span class="author-email">awarstadt@ucsd.edu</span>
+        </div>
+        <div class="cover-links">
+          <a href="#" class="cover-button">Full Report</a>
+          <a href="#" class="cover-button">Code Repository</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="page-layout">
+      <aside class="sidebar">
+        <div class="sidebar-inner">
+          <p class="toc-label">Contents</p>
+          <ul class="toc-list">
+            <li><a href="#abstract">Abstract</a></li>
+            <li><a href="#introduction">Introduction</a></li>
+            <li><a href="#results">Results</a></li>
+            <li><a href="#methods">Methods</a></li>
+            <li><a href="#discussion">Discussion</a></li>
+            <li><a href="#conclusion">Conclusion</a></li>
+            <li><a href="#references">References</a></li>
+          </ul>
+        </div>
+      </aside>
+
+      <main class="report">
+        <section class="section" id="abstract">
+          <p class="section-label">01 - Abstract</p>
+          <h2>Abstract</h2>
+          <p class="abstract-hook">
+            Humans don't reread the same textbook ten times. Why should language
+            models?
+          </p>
+          <p>
+            Training modern language models is expensive and repetitive. Models
+            read the same data over and over, sometimes dozens of times, to
+            learn effectively. This is nothing like how humans learn.
+
+            <br /><br />
+
+            We take inspiration from sleep. When humans sleep, the brain
+            revisits difficult experiences, not only storing them but processing
+            them more thoroughly until they stick. We designed a training
+            pipeline that works the same way: rather than repeatedly looping
+            over all the data, the model works through it in chunks, and between
+            each chunk, it "sleeps" by replaying and reprocessing the samples it
+            struggled with most, giving difficult material extra attention
+            before moving on.
+
+            <br /><br />
+
+            We tested this on the RoBERTa model using the 100M-token BabyLM
+            corpus, a dataset designed to mimic the amount of language a child
+            receives by age 13.
+            <!-- TALK ABOUT HOW OUR APPROACH DID NOT OUTPERFORM STANDARD MULTI-EPOCH
+          TRAINING -- COULD BE BECAUSE TOO MANY THINGS GOING ON -->
+          </p>
+        </section>
+
+        <section class="section" id="introduction">
+          <p class="section-label">02 - Introduction</p>
+          <h2>Introduction</h2>
+          <p>TODO</p>
+        </section>
+
+        <section class="section" id="results">
+          <p class="section-label">03 - Results</p>
+          <h2>Results</h2>
+          <p>TODO</p>
+        </section>
+
+        <section class="section" id="methods">
+          <p class="section-label">04 - Methods</p>
+          <h2>Methods</h2>
+          <p>TODO</p>
+        </section>
+
+        <section class="section" id="discussion">
+          <p class="section-label">05 - Discussion</p>
+          <h2>Discussion</h2>
+          <p>TODO</p>
+        </section>
+
+        <section class="section" id="conclusion">
+          <p class="section-label">06 - Conclusion</p>
+          <h2>Conclusion</h2>
+          <p>TODO</p>
+        </section>
+
+        <section class="section" id="references">
+          <p class="section-label">07 - References</p>
+          <h2>References</h2>
+          <p>TODO</p>
+        </section>
+      </main>
+    </div>
+  </body>
+  <!-- for active scrolling / keeping track of TOC section  -->
+  <script>
+    const sections = document.querySelectorAll(".section");
+    const tocLinks = document.querySelectorAll(".toc-list a");
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            tocLinks.forEach((link) => link.classList.remove("active"));
+            const active = document.querySelector(
+              `.toc-list a[href="#${entry.target.id}"]`,
+            );
+            if (active) active.classList.add("active");
+          }
+        });
+      },
+      { rootMargin: "-30% 0px -60% 0px" },
+    );
+
+    sections.forEach((section) => observer.observe(section));
+
+    const cover = document.querySelector(".cover-background");
+
+    window.addEventListener("scroll", () => {
+      const scrollY = window.scrollY;
+      const coverHeight = cover.offsetHeight;
+      const opacity = 1 - (scrollY / coverHeight) * 1.5;
+      cover.style.opacity = Math.max(0, opacity);
+    });
+  </script>
+</html>
