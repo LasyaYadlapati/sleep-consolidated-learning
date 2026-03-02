@@ -230,4 +230,26 @@ body {
 .intro-figure img {
     width: 100%;
     display: block;
+    object-fit: cover;
+    object-position: center;
+    max-height: 300px;
+    margin-bottom: 15px;
+}
+
+.intro-figure figcaption {
+    margin-top: 10px;
+    margin-bottom: 20px;
+    font-size: 16px;
+    letter-spacing: 0.05em;
+    color: #3d4653;
+    text-align: center;
+}
+
+.intro-figure figcaption a {
+    color: #c9a84c;
+    text-decoration: none;
+}
+
+.intro-figure figcaption a:hover {
+    text-decoration: underline;
 }
