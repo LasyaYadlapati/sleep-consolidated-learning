@@ -115,12 +115,6 @@
 
             <br />
 
-            <!-- <img
-              src="assets/model-training-sizes.png"
-              alt="Training data requirements by model."
-              width=""
-            /> -->
-
             <figure class="intro-figure">
               <img
                 src="assets/model-training-sizes.png"
@@ -144,10 +138,11 @@
             While the waking brain is optimized for encoding new experiences,
             sleep provides an off-line environment in which the brain
             selectively replays recent, difficult, or surprising experiences,
-            gradually stabilizing them into long-term synaptic networks. This two-stage model, in which rapid encoding during
-            waking is followed by consolidation during sleep, is thought to be
-            central to how humans acquire complex cognitive skills, including
-            language, from comparatively limited input.
+            gradually stabilizing them into long-term synaptic networks. This
+            two-stage model, in which rapid encoding during waking is followed
+            by consolidation during sleep, is thought to be central to how
+            humans acquire complex cognitive skills, including language, from
+            comparatively limited input.
           </p>
           <p>
             Sleep also performs a kind of neural housekeeping. During the day,
@@ -155,9 +150,9 @@
             that is metabolically costly and accumulates noise. During sleep,
             the brain downscales weaker connections while preserving and
             reinforcing the strongest, through a process called synaptic
-            homeostasis. The effect is a leaner, more generalized memory
-            system, cleared of spurious associations and ready for the next
-            day's learning.
+            homeostasis. The effect is a leaner, more generalized memory system,
+            cleared of spurious associations and ready for the next day's
+            learning.
           </p>
           <p>
             We believe this is a principle worth importing into machine
@@ -167,8 +162,8 @@
             fighting forgetting, we ask whether sleep-like consolidation can
             improve sample efficiency during pretraining itself. What happens if
             a language model is trained the way humans learn, processing each
-            sample only once but pausing between data blocks to consolidate
-            what was hardest?
+            sample only once but pausing between data blocks to consolidate what
+            was hardest?
           </p>
         </section>
 
@@ -182,12 +177,12 @@
           <p class="section-label">04 - Methods</p>
           <h2>Methods</h2>
           <p>
-            <strong>Dataset.</strong> We train on the BabyLM 100M word corpus,
-            a benchmark designed to approximate the linguistic input a child
+            <strong>Dataset.</strong> We train on the BabyLM 100M word corpus, a
+            benchmark designed to approximate the linguistic input a child
             receives by age 13. The corpus blends two domains: transcribed
-            speech (roughly 56%), drawn from movie and TV subtitles,
-            educational video transcripts, adult-child conversation recordings,
-            and telephone dialogues; and child-directed written language (44%),
+            speech (roughly 56%), drawn from movie and TV subtitles, educational
+            video transcripts, adult-child conversation recordings, and
+            telephone dialogues; and child-directed written language (44%),
             including simplified encyclopedias, children's books, and literary
             texts. This composition reflects how hearing children actually
             encounter language: predominantly through spoken interaction,
@@ -215,8 +210,8 @@
           </p>
           <p>
             At the end of each wake phase, we populate a
-            <strong>replay buffer</strong> by sampling from the processed
-            data using loss-weighted random selection: samples that the model
+            <strong>replay buffer</strong> by sampling from the processed data
+            using loss-weighted random selection: samples that the model
             struggled with more are more likely to be retained. The proportion
             of data retained is controlled by the replay ratio.
           </p>
@@ -224,13 +219,13 @@
             During the <strong>sleep phase</strong>, the model stops receiving
             new data and trains exclusively on the replay buffer. Before
             training begins, the buffered samples are shuffled and recombined
-            into contiguous token blocks, then re-split at artificial
-            boundaries rather than original sample boundaries. This
-            context-augmented padding, adapted from prior work on contextualizer
-            pretraining, prevents the model from memorizing surface patterns and
-            encourages more abstract generalization. The sleep phase runs until
-            a target loss threshold is reached or a maximum step count is
-            exceeded, at which point the replay buffer is emptied.
+            into contiguous token blocks, then re-split at artificial boundaries
+            rather than original sample boundaries. This context-augmented
+            padding, adapted from prior work on contextualizer pretraining,
+            prevents the model from memorizing surface patterns and encourages
+            more abstract generalization. The sleep phase runs until a target
+            loss threshold is reached or a maximum step count is exceeded, at
+            which point the replay buffer is emptied.
           </p>
           <p>
             After each sleep phase, the data from that wake cycle is discarded.
@@ -250,13 +245,13 @@
             <strong>Evaluation.</strong> We compare against a multi-epoch
             baseline matched by total training steps rather than epochs,
             ensuring a fair, compute-controlled comparison. Beyond training
-            perplexity, we evaluate on the Benchmark of Linguistic Minimal
-            Pairs (BLiMP) to probe grammatical acceptability and syntactic
-            knowledge, and on selected GLUE tasks for semantic generalization.
-            We also track sleep-specific metrics: the standard deviation and
-            maximum of per-sample perplexity within batches, to examine whether
-            sleep phases are successfully narrowing the gap between easy and
-            hard data points over time.
+            perplexity, we evaluate on the Benchmark of Linguistic Minimal Pairs
+            (BLiMP) to probe grammatical acceptability and syntactic knowledge,
+            and on selected GLUE tasks for semantic generalization. We also
+            track sleep-specific metrics: the standard deviation and maximum of
+            per-sample perplexity within batches, to examine whether sleep
+            phases are successfully narrowing the gap between easy and hard data
+            points over time.
           </p>
         </section>
 
@@ -275,20 +270,85 @@
         <section class="section" id="references">
           <p class="section-label">07 - References</p>
           <h2>References</h2>
-          <ol style="padding-left: 1.5em; display: flex; flex-direction: column; gap: 10px; font-size: 1.05rem; line-height: 1.75; color: #3a4455;">
-            <li>Hart, B., &amp; Risley, T. R. (1992). American parenting of language-learning children: Persisting differences in family-child interactions observed in natural home environments. <em>Developmental Psychology</em>, 28(6), 1096–1105.</li>
-            <li>Warstadt, A., &amp; Bowman, S. R. (2024). What artificial neural networks can tell us about human language acquisition. <em>arXiv</em>:2208.07998.</li>
-            <li>Grattafiori, A., et al. (2024). The Llama 3 herd of models. <em>arXiv</em>:2407.21783.</li>
-            <li>Rasch, B., &amp; Born, J. (2013). About sleep's role in memory. <em>Physiological Reviews</em>, 93(2), 681–766.</li>
-            <li>Marr, D. (1971). Simple memory: a theory for archicortex. <em>Philosophical Transactions of the Royal Society of London B</em>, 262(841), 23–81.</li>
-            <li>Tononi, G., &amp; Cirelli, C. (2014). Sleep and the price of plasticity: From synaptic and cellular homeostasis to memory consolidation and integration. <em>Neuron</em>, 81(1), 12–34.</li>
-            <li>Balduzzi, D., &amp; Tononi, G. (2013). What can neurons do for their brain? Communicate selectivity with bursts. <em>Theory in Biosciences</em>, 132(1), 27–39.</li>
-            <li>Xiao, C., Hudson, G. T., &amp; Al Moubayed, N. (2023). Towards more human-like language models based on contextualizer pretraining strategy. In <em>Proceedings of the BabyLM Challenge at CoNLL 2023</em>, 317–326.</li>
-            <li>Liu, Y., et al. (2019). RoBERTa: A robustly optimized BERT pretraining approach. <em>arXiv</em>:1907.11692.</li>
-            <li>Warstadt, A., et al. (2023). Findings of the BabyLM Challenge: Sample-efficient pretraining on developmentally plausible corpora. In <em>Proceedings of the BabyLM Challenge at CoNLL 2023</em>, 1–6.</li>
-            <li>Tadros, T., Krishnan, G. P., Ramyaa, R., &amp; Bazhenov, M. (2022). Sleep-like unsupervised replay reduces catastrophic forgetting in artificial neural networks. <em>Nature Communications</em>, 13, 7742.</li>
-            <li>Oudiette, D., &amp; Paller, K. A. (2013). Upgrading the sleeping brain with targeted memory reactivation. <em>Trends in Cognitive Sciences</em>, 17(3), 142–149.</li>
-            <li>Hu, M. Y., et al. (2024). Findings of the second BabyLM Challenge: Sample-efficient pretraining on developmentally plausible corpora. <em>arXiv</em>:2412.05149.</li>
+          <ol
+            style="
+              padding-left: 1.5em;
+              display: flex;
+              flex-direction: column;
+              gap: 10px;
+              font-size: 1.05rem;
+              line-height: 1.75;
+              color: #3a4455;
+            "
+          >
+            <li>
+              Hart, B., &amp; Risley, T. R. (1992). American parenting of
+              language-learning children: Persisting differences in family-child
+              interactions observed in natural home environments.
+              <em>Developmental Psychology</em>, 28(6), 1096–1105.
+            </li>
+            <li>
+              Warstadt, A., &amp; Bowman, S. R. (2024). What artificial neural
+              networks can tell us about human language acquisition.
+              <em>arXiv</em>:2208.07998.
+            </li>
+            <li>
+              Grattafiori, A., et al. (2024). The Llama 3 herd of models.
+              <em>arXiv</em>:2407.21783.
+            </li>
+            <li>
+              Rasch, B., &amp; Born, J. (2013). About sleep's role in memory.
+              <em>Physiological Reviews</em>, 93(2), 681–766.
+            </li>
+            <li>
+              Marr, D. (1971). Simple memory: a theory for archicortex.
+              <em
+                >Philosophical Transactions of the Royal Society of London B</em
+              >, 262(841), 23–81.
+            </li>
+            <li>
+              Tononi, G., &amp; Cirelli, C. (2014). Sleep and the price of
+              plasticity: From synaptic and cellular homeostasis to memory
+              consolidation and integration. <em>Neuron</em>, 81(1), 12–34.
+            </li>
+            <li>
+              Balduzzi, D., &amp; Tononi, G. (2013). What can neurons do for
+              their brain? Communicate selectivity with bursts.
+              <em>Theory in Biosciences</em>, 132(1), 27–39.
+            </li>
+            <li>
+              Xiao, C., Hudson, G. T., &amp; Al Moubayed, N. (2023). Towards
+              more human-like language models based on contextualizer
+              pretraining strategy. In
+              <em>Proceedings of the BabyLM Challenge at CoNLL 2023</em>,
+              317–326.
+            </li>
+            <li>
+              Liu, Y., et al. (2019). RoBERTa: A robustly optimized BERT
+              pretraining approach. <em>arXiv</em>:1907.11692.
+            </li>
+            <li>
+              Warstadt, A., et al. (2023). Findings of the BabyLM Challenge:
+              Sample-efficient pretraining on developmentally plausible corpora.
+              In <em>Proceedings of the BabyLM Challenge at CoNLL 2023</em>,
+              1–6.
+            </li>
+            <li>
+              Tadros, T., Krishnan, G. P., Ramyaa, R., &amp; Bazhenov, M.
+              (2022). Sleep-like unsupervised replay reduces catastrophic
+              forgetting in artificial neural networks.
+              <em>Nature Communications</em>, 13, 7742.
+            </li>
+            <li>
+              Oudiette, D., &amp; Paller, K. A. (2013). Upgrading the sleeping
+              brain with targeted memory reactivation.
+              <em>Trends in Cognitive Sciences</em>, 17(3), 142–149.
+            </li>
+            <li>
+              Hu, M. Y., et al. (2024). Findings of the second BabyLM Challenge:
+              Sample-efficient pretraining on developmentally plausible corpora.
+              <em>arXiv</em>:2412.05149.
+            </li>
           </ol>
         </section>
       </main>
