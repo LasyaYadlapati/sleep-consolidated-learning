@@ -104,16 +104,29 @@
           <p class="section-label">02 - Introduction</p>
           <h2>Introduction</h2>
           <p>
-            Modern language models are powerful, but training them from scratch
-            is enormously expensive. Building an effective model requires
-            exposing it to far more text than any human being will encounter in
-            an entire lifetime. BERT and ELMo were each trained on billions of
-            words, RoBERTa on 30 billion, and the Llama family on tens of
-            trillions. By comparison, developmental psychologists estimate that
-            a child hears roughly 3 to 11 million words per year. Language
-            models, in other words, consume the linguistic equivalent of
-            hundreds of thousands of years of human experience before they can
-            reliably comprehend a sentence.
+            Training a language models requires a large amount of data. Models
+            like RoBERTa were trained on 30 billion words, and more recent
+            models like Llama 2 on 2 trillion. A 12-year-old human, by
+            comparison, are exposed to fewer than 100 million in linguistic
+            input. Language models don't just see data once. They loop over the
+            same dataset tens or hundreds of times. This is entirely different
+            from how humans acquire language: we live through every day once,
+            and experience everything only once.
+
+            <br />
+
+            <!-- <img
+              src="assets/model-training-sizes.png"
+              alt="Training data requirements by model."
+              width=""
+            /> -->
+
+            <figure class="intro-figure">
+              <img
+                src="assets/model-training-sizes.png"
+                alt="Bubble chart comparing training data size across models and a 12-year-old human."
+              />
+            </figure>
           </p>
           <p>
             Part of this gap is structural. Standard training exposes the model

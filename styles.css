@@ -206,7 +206,7 @@ body {
     color: #0a1628;
     margin-bottom: 20px;
     padding-bottom: 12px;
-    border-bottom: 1px solid rgba(201, 168, 76, 0.25);
+    border-bottom: 1px solid rgba(201, 168, 76, 0.5);
 }
 
 .section p {
@@ -225,4 +225,9 @@ body {
     margin-bottom: 24px;
     padding-left: 16px;
     border-left: 3px solid rgba(201, 168, 76, 0.5);
+}
+
+.intro-figure img {
+    width: 100%;
+    display: block;
 }
