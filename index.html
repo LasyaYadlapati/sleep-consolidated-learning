@@ -117,10 +117,7 @@
             like RoBERTa were trained on 30 billion words, and more recent
             models like Llama 2 on 2 trillion. A 12-year-old human, by
             comparison, is exposed to fewer than 100 million in linguistic
-            input. And unlike humans, language models don't just see data once.
-            They loop over the same dataset tens or hundreds of times. This is
-            entirely different from how humans acquire language: we live through
-            every day once, and experience everything only once.
+            input.
 
             <br />
           </p>
@@ -128,22 +125,24 @@
             Part of this gap is structural. Standard training exposes the model
             to the same dataset tens to thousands of times. Every epoch, every
             sentence is revisited at equal attention, regardless of whether the
-            model has already learned from it. This is computationally wasteful:
-            once a model has mastered easy examples, re-training on them adds
-            negligible signal while consuming real compute. And it is
-            cognitively implausible. Humans do not relive every experience from
-            childhood. We move through time once, and we remember.
+            model has already learned from it. This is
+            <strong>computationally wasteful</strong>: once a model has mastered
+            easy examples, re-training on them adds negligible signal while
+            consuming real compute. And it is
+            <strong>cognitively implausible</strong>. Humans do not relive every
+            experience from childhood. We move through time once, and we
+            remember.
           </p>
           <p>
             What we do have is sleep. Neuroscientists have established that
             sleep is an active process of memory consolidation, not mere rest.
             While the waking brain is optimized for encoding new experiences,
-            sleep provides an off-line environment in which the brain
-            selectively replays recent, difficult, or surprising experiences,
-            gradually stabilizing them into long-term synaptic networks. This
-            two-stage model, in which rapid encoding during waking is followed
-            by consolidation during sleep, is thought to be central to how
-            humans acquire complex cognitive skills, including language, from
+            sleep provides an offline environment in which the brain selectively
+            replays recent, difficult, or surprising experiences, gradually
+            stabilizing them into long-term synaptic networks. This two-stage
+            model, in which rapid encoding during waking is followed by
+            consolidation during sleep, is thought to be central to how humans
+            acquire complex cognitive skills, including language, from
             comparatively limited input.
           </p>
           <p>
