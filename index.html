@@ -171,6 +171,7 @@
         <section class="section" id="results">
           <p class="section-label">03 - Results</p>
           <h2>Results</h2>
+          <h3>Hyperparameter Sweeps</h3>
           <figure class="figure">
             <img
               src="assets/sweep_para_results.png"
@@ -210,7 +211,28 @@
             We test randomly selecting samples uniformly, randomly selecting and weighting by model loss, and strictly choosing the highest-loss samples.
             Figure 2 displays the evaluation results from the replay strategy experiments.
             For both mean and standard deviation of test perplexity, strict replay yields the best results, and some weighting by loss is better than uniformly randomly sampling.
-            Looking at the accuracy on linguistic tasks, however, all three strategies seem to be relatively similar.
+          </p>
+          <p>
+            In addition to perplexity, we also evaluate our models on various linguistic tasks, explored further in <a href="#methods">section 04</a>.
+            Looking at the accuracy on linguistic tasks, all three strategies seem to be relatively similar.
+            Additionally, accuracies seem to be at random, or close to 50% for all replay strategies.
+          </p>
+          <figure class="figure">
+            <img
+              src="assets/babylm_eval.png"
+              alt="Comparison between baseline and sleep models."
+            />
+            <figcaption>
+              Figure 3: Language Understanding (BabyLM) and Perplexity evaluation comparisons.
+            </figcaption>
+          </figure>
+          <p>
+            Figure 3 shows both BabyLM evaluation accuracy and perplexity for the two baseline models and a sleep model.
+            Both baseline models show similar performance, meaning our hyperparameter configuration successfully mimics multi-epoch training.
+            Comparing sleep and baseline models, interestingly, performance is mixed across different linguistic tasks.
+            While the sleep model falls behind in BLiMP accuracy, it outperforms significantly in adjective nominalization (indicating much more human-like behavior) and slightly outperforms the baseline in entity tracking.
+            In a past-tense formation, the sleep model seems actually negatively correlated with humans, indicating the opposite behavior.
+            In terms of perplexity, baseline models far outperform sleep models.
           </p>
         </section>
 
@@ -296,20 +318,56 @@
           </p>
         </section>
 
-        <section class="section" id="discussion">
+        <!-- <section class="section" id="discussion">
           <p class="section-label">05 - Discussion</p>
           <h2>Discussion</h2>
           <p>TODO</p>
-        </section>
+        </section> -->
 
         <section class="section" id="conclusion">
-          <p class="section-label">06 - Conclusion</p>
+          <p class="section-label">05 - Conclusion</p>
           <h2>Conclusion</h2>
-          <p>TODO</p>
+          <p>
+            Overall, it is clear that <strong>sleep models currently fall short of standard multi-epoch models</strong>, both in terms of next-token prediction and linguistic understanding.
+            However, our results still indicate that <strong>this new, cognitively-plausible training paradigm has promise.</strong>
+          </p>
+          <p>
+            Firstly, in our hyperparameter sweep, several results were counter-intuitive, showing a <strong>divergence from multi-epoch training.</strong>
+            Of particular interest is the replay ratio, as our results from both the sweep and the replay strategy experiments show that training a language model on a smaller proportion of the highest-loss clips leads to improved performance.
+            This supports our hypothesis that in a multi-epoch training schedule, steps are wasted by training over easier samples.
+          </p>
+          <p>
+            Additionally, in terms of linguistic understanding, results are inconclusive.
+            While sleep-like training improved performance on some tasks, multi-epoch models fared better on others.
+            This may have to do with the model overfitting on data in the replay buffer.
+            If samples containing examples of adjective nominalization are more likely to be selected, then naturally, the sleep model would perform better on that task.
+            Conversely, if high-loss samples with past-tense formations happened to exhibit non-native behaviors, this would lead to the negative correlation seen in Figure 3.
+          </p>
+          <p>
+            We have several hypotheses as to why performance of sleep models falls so short of baselines.
+            For one, the model could be <strong>overwriting information learned in past folds with new data from a later fold.</strong>
+            This would lead to catastrophic forgetting, causing the model to become worse at generalizing to unseen data and explaining the high test perplexities.
+            To fix this, we could take inspiration from another process that happens during sleep as a part of memory consolidation: <strong>synaptic homeostasis.</strong>
+            During waking hours, synapses are constantly strengthening and firing strongly, making it easier to learn and encode new information.
+            However, this comes with a high resource cost; stronger synaptic connections need more energy and place extra stress on neurons (<a href="#references">Tononi & Cirelli, 2014</a>).
+            Additionally, neurons with stronger synaptic connections may fire for random chance, effectively wasting resources (<a href="#references">Balduzzi & Tononi, 2013</a>).
+            Thus, during sleep, important synapses with strong signals are strengthened and consolidated, while less important connections are reduced or even pruned (<a href="#references">Tononi & Cirelli, 2014</a>).
+            In the future, we will attempt to implement such a mechanism into the sleep mechanism by freezing weights in the model and manipulating learning rates.
+            This would simulate reduced plasticity and serve to "lock in" information learned in earlier folds of the dataset.
+
+            Another explanation could be in the selection of samples for the replay buffer.
+            Currently, we use model training loss to measure difficulty, and assume that higher difficulty samples will be most helpful for learning.
+            However, it's possible that the highest-loss samples contain random noise from the dataset that hinders learning rather than help it.
+            Future studies could explore more nuanced ways to measure how helpful a sample would be for learning.
+
+            Multi-epoch learning, while effective for LM training, is not cognitively-plausible or comparable to human learning.
+            While our project has so far been unsuccessful in providing a cognitively-plausible, sleep-inspired alternative, it has produced promising results.
+            We hope that in continuing this project, we may develop such an alternative and forward the democratization of linguistic research.
+          </p>
         </section>
 
         <section class="section" id="references">
-          <p class="section-label">07 - References</p>
+          <p class="section-label">06 - References</p>
           <h2>References</h2>
           <ol
             style="

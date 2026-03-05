@@ -253,3 +253,12 @@ body {
 .figure figcaption a:hover {
     text-decoration: underline;
 }
+
+.section p a {
+    color: #c9a84c;
+    text-decoration: none;
+}
+
+.section p a:hover {
+    text-decoration: underline;
+}
