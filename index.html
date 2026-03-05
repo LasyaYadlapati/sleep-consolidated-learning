@@ -73,7 +73,7 @@
           <p class="section-label">01 - Abstract</p>
           <h2>Abstract</h2>
           <p class="abstract-hook">
-            Humans don't reread the same textbook ten times. Why should language
+            Humans don't relive the same day ten times. Why should language
             models?
           </p>
           <p>
@@ -171,7 +171,47 @@
         <section class="section" id="results">
           <p class="section-label">03 - Results</p>
           <h2>Results</h2>
-          <p>TODO</p>
+          <figure class="sweep-results-figure">
+            <img
+              src="assets/sweep_para_results.png"
+              alt="Importance and correlation of each hyperparameter with respect to mean test perplexity (loss)."
+            />
+            <figcaption>
+              Figure 1: Importance and correlation of sleep hyperparameters w.r.t. test perplexity (loss).
+            </figcaption>
+          </figure>
+          <p> 
+            As part of our experiments, we run a hyperparameter sweep to test the importance of different sleep parameters.
+            Figure 1 shows the importance of each part of the sleep process 
+            for minimizing loss and the correlation of each parameter with loss.
+            We find that the more sleep phases, the higher the loss. Surprisingly, 
+            the max number of steps in the sleep phase is also positively correlated 
+            with perplexity. This is counterintuitive to conventional understandings 
+            in multi-epoch training! More training steps generally leads to better 
+            performance up to a point, after which the model will begin to overfit.
+          </p>
+          <p>
+            Replay ratio is also positively correlated, which is also surprising!
+            The replay ratio governs what proportion of the data is selected for replay, i.e. how much of the original data the model sees in its 'dreams'.
+            Lower replay ratio means less data is included. This means there are more data points which the model sees only once, and less that it replays during sleep.
+            Classically, this might be expected to cause overfitting, but in this case, it seems to improve generalization.
+          </p>
+          <figure class="replay-experiments-figure">
+            <img
+              src="assets/replay_strat_results.png"
+              alt="Figure 2: Results from the replay strategy experiments."
+            />
+            <figcaption>
+              Figure 2: Results from the replay strategy experiments.
+            </figcaption>
+          </figure>
+          <p>
+            We also experiment with how samples are selected to be replayed.
+            We test randomly selecting samples uniformly, randomly selecting and weighting by model loss, and strictly choosing the highest-loss samples.
+            Figure 2 displays the evaluation results from the replay strategy experiments.
+            For both mean and standard deviation of test perplexity, strict replay yields the best results, and some weighting by loss is better than uniformly randomly sampling.
+            Looking at the accuracy on linguistic tasks, however, all three strategies seem to be relatively similar.
+          </p>
         </section>
 
         <section class="section" id="methods">
