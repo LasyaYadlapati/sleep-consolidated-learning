@@ -216,6 +216,14 @@ body {
     margin-bottom: 16px;
 }
 
+.section ol {
+    font-size: 1.1rem;
+    line-height: 1.85;
+    color: #3a4455;
+    margin-bottom: 16px;
+    padding-left: 1.5em;
+}
+
 /* hook formatting */
 .abstract-hook {
     font-size: 1.2rem;

@@ -35,7 +35,7 @@
           </div>
         </div>
         <div class="cover-mentor">
-          <span class="author-name">Alex Warstadt (Mentor)</span>
+          <span class="author-name">Dr. Alex Warstadt (Mentor)</span>
           <span class="author-email">awarstadt@ucsd.edu</span>
         </div>
         <div class="cover-links">
@@ -81,20 +81,20 @@
 
             <br /><br />
 
-            We take inspiration from sleep. When humans sleep, the brain
-            revisits difficult experiences, not only storing them but processing
-            them more thoroughly until they stick. We designed a training
-            pipeline that works the same way: rather than repeatedly looping
-            over all the data, the model works through it in chunks, and between
-            each chunk, it "sleeps" by replaying and reprocessing the samples it
-            struggled with most, giving difficult material extra attention
-            before moving on.
+            However, when humans sleep, the brain does revisit difficult
+            experiences, not only storing them but processing them more
+            thoroughly until they stick. We designed a training pipeline that
+            works the same way: rather than repeatedly looping over all the
+            data, the model works through it in chunks, and between each chunk,
+            it "sleeps" by replaying and reprocessing the samples it struggled
+            with most, giving difficult material extra attention before moving
+            on.
 
             <br /><br />
 
-            We tested this on the RoBERTa model using the 100M-token BabyLM
-            corpus, a dataset designed to mimic the amount of language a child
-            receives by age 13.
+            While results are mixed and our models still generally underperform
+            baselines, they show promise for sleep-inspired language modeling
+            and reveal the need for further analysis.
           </p>
         </section>
 
@@ -111,39 +111,31 @@
             </figcaption>
           </figure>
           <p>
-            Training a language models requires a large amount of data. Models
-            like RoBERTa were trained on 30 billion words, and more recent
-            models like Llama 2 on 2 trillion. A 12-year-old human, by
-            comparison, is exposed to fewer than 100 million in linguistic
-            input.
-
+            Training a language model requires a lot of data. Models like
+            RoBERTa were trained on 30 billion words, and more recent models
+            like Llama 2 on trillions. A 12-year-old human, by comparison, is
+            exposed to fewer than 100 million in linguistic input.
             <br />
           </p>
           <p>
-            Part of this gap is structural. Standard training exposes the model
-            to the same dataset tens to thousands of times. Every epoch, every
-            sentence is revisited at equal attention, regardless of whether the
-            model has already learned from it. This is
-            <strong>computationally wasteful</strong>: once a model has mastered
-            easy examples, re-training on them adds negligible signal while
-            consuming real compute. And it is
-            <strong>cognitively implausible</strong>. Humans do not relive every
-            experience from childhood. We move through time once, and we
-            remember.
+            This might be because, currently, language models don't learn like
+            humans. Standard training exposes the model to the same dataset tens
+            to thousands of times in forward passes called <em>epochs</em>.
+            Models will see every data point in every epoch, even if they are
+            unhelpful for its learning. In contrast, a human does not need to
+            relive every experience since birth in order to learn. The high
+            training costs and differences in how humans and models learn makes
+            it hard for researchers to use LLMs as cognitive models for language
+            learning.
           </p>
           <p>
-            What we do have is sleep. Neuroscientists have established that
-            sleep is an active process of memory consolidation, not mere rest.
-            While the waking brain is optimized for encoding new experiences,
-            sleep provides an offline environment in which the brain selectively
-            replays recent, difficult, or surprising experiences, gradually
-            stabilizing them into long-term synaptic networks. This two-stage
-            model, in which rapid encoding during waking is followed by
-            consolidation during sleep, is thought to be central to how humans
-            acquire complex cognitive skills, including language, from
-            comparatively limited input.
+            However, humans do revisit important and surprising memories during
+            sleep. Neuroscientists have established that sleep is an active
+            process of memory consolidation, not mere rest. It's thought to be
+            central to how humans acquire complex cognitive skills, including
+            language, from comparatively limited input.
           </p>
-          <p>
+          <!-- <p>
             Sleep also performs a kind of neural housekeeping. During the day,
             synapses broadly strengthen as information is encoded, a process
             that is metabolically costly and accumulates noise. During sleep,
@@ -152,17 +144,33 @@
             homeostasis. The effect is a leaner, more generalized memory system,
             cleared of spurious associations and ready for the next day's
             learning.
+          </p> -->
+          <p>
+            We believe this is a principle worth importing into language
+            modeling. Prior sleep-inspired work has focused mainly on using
+            replay to preserve old knowledge as models learn new tasks. However,
+            rather than fighting forgetting, we ask whether sleep-like
+            consolidation can improve sample efficiency during pretraining
+            itself.
+            <strong
+              >What happens if a language model is trained the way humans learn,
+              processing each sample only once but pausing between data blocks
+              to consolidate what was hardest?</strong
+            >Answering this question could help
+            <strong
+              >lower the costs of pretraining and improve effectiveness of
+              language models for computational linguists.</strong
+            >
           </p>
           <p>
-            We believe this is a principle worth importing into machine
-            learning. Prior sleep-inspired work has focused mainly on
-            catastrophic forgetting, using replay to preserve old knowledge as
-            models learn new tasks. We take a different angle. Rather than
-            fighting forgetting, we ask whether sleep-like consolidation can
-            improve sample efficiency during pretraining itself. What happens if
-            a language model is trained the way humans learn, processing each
-            sample only once but pausing between data blocks to consolidate what
-            was hardest?
+            In this project, we build and test a novel pretraining strategy for
+            large language models. We evaluate the resulting models on both
+            next-token prediction (perplexity) and more complex linguistic
+            tasks. We also analyze the effects of different portions of our
+            implementation with hyperparameter sweeps and experiments. We do not
+            attempt to build useable chatbots; this research is focused on
+            building more data-efficient, cognitively-plausible models that can
+            be used as models for human language learning.
           </p>
         </section>
 
@@ -170,7 +178,7 @@
           <p class="section-label">03 - Results</p>
           <h2>Results</h2>
           <h3>Hyperparameter Sweeps</h3>
-          <figure class="figure">
+          <figure class="figure" id="fig:sweep_para">
             <img
               src="assets/sweep_para_results.png"
               alt="Importance and correlation of each hyperparameter with respect to mean test perplexity (loss)."
@@ -181,37 +189,30 @@
             </figcaption>
           </figure>
           <p>
-            As part of our experiments, we run a hyperparameter sweep to test
-            the importance of different sleep parameters. Figure 1 shows the
-            importance of each part of the sleep process for minimizing loss and
-            the correlation of each parameter with loss. We find that the more
-            sleep phases, the higher the loss. Surprisingly, the max number of
-            steps in the sleep phase is also positively correlated with
-            perplexity. This is counterintuitive to conventional understandings
-            in multi-epoch training! More training steps generally leads to
-            better performance up to a point, after which the model will begin
-            to overfit.
+            <a href="#fig:sweep_para">Figure 1</a> shows the importance of each
+            part of the sleep process for minimizing loss and the correlation of
+            each parameter with perplexity loss. We find that the more sleep
+            phases and the longer the sleep phases, the higher the loss. This
+            could be because more sleep phases means smaller portions of the
+            dataset within each cycle. What we are seeing then is hastened
+            overfitting and subsequent forgetting.
           </p>
           <p>
             Replay ratio is not significantly correlated, which is also
-            surprising! The replay ratio governs what proportion of the data is
-            selected for replay, i.e. how much of the original data the model
-            sees in its 'dreams'. Higher replay ratio means more data is
-            included. This means it affects how many data points the model sees
-            only once, and how many it replays during sleep. We notice that it
-            shows close to zero correlation, but has high importance. This
-            indicates that it has a more complex relationship with model
-            performance, potentially due to interactions with other parameters.
+            surprising!While it shows close to zero correlation, it also has
+            high importance. This indicates that replay ratio has a more complex
+            relationship with model performance, potentially due to interactions
+            with other parameters.
           </p>
           <p>
             Contextualization is also of low/close to zero correlation. This
             parameter governs whether or not samples in the replay buffer are
-            shuffled and recontextualized, which has been shown to improve
-            model generalization. However, in our case, it seems to have a more
+            shuffled and recontextualized, which has been shown to improve model
+            generalization. However, in our case, it seems to have a more
             complex effect.
           </p>
           <h3>Replay Experiments</h3>
-          <figure class="figure">
+          <figure class="figure" id="fig:replay_results">
             <img
               src="assets/replay_strat_results.png"
               alt="Figure 2: Results from the replay strategy experiments."
@@ -221,13 +222,11 @@
             </figcaption>
           </figure>
           <p>
-            We also experiment with how samples are selected to be replayed. We
-            test randomly selecting samples uniformly, randomly selecting and
-            weighting by model loss, and strictly choosing the highest-loss
-            samples. Figure 2 displays the evaluation results from the replay
-            strategy experiments. For both mean and standard deviation of test
-            perplexity, strict replay yields the best results, and some
-            weighting by loss is better than uniformly randomly sampling.
+            <a href="#fig:replay_results">Figure 2</a> displays the evaluation
+            results from the replay strategy experiments. For both mean and
+            standard deviation of test perplexity, strict replay yields the best
+            results, and some weighting by loss is better than uniformly
+            randomly sampling.
           </p>
           <p>
             In addition to perplexity, we also evaluate our models on various
@@ -235,10 +234,11 @@
             <a href="#methods">section 04</a>. Looking at the accuracy on
             linguistic tasks, all three strategies seem to be relatively
             similar. Additionally, accuracies seem to be at random, or close to
-            50% for all replay strategies.
+            50% for all replay strategies, indicating that replaying more
+            difficult data does not improve linguistic understanding.
           </p>
           <h3>Linguistic Evaluation/Baseline Comparison</h3>
-          <figure class="figure">
+          <figure class="figure" id="fig:babylm_eval">
             <img
               src="assets/babylm_eval.png"
               alt="Comparison between baseline and sleep models."
@@ -249,35 +249,35 @@
             </figcaption>
           </figure>
           <p>
-            Figure 3 shows both BabyLM evaluation accuracy and perplexity for
-            the two baseline models and a sleep model. Both baseline models show
-            similar performance, meaning our hyperparameter configuration
-            successfully mimics multi-epoch training. Comparing sleep and
-            baseline models, interestingly, performance is mixed across
-            different linguistic tasks. While the sleep model falls behind in
-            BLiMP accuracy, it outperforms significantly in adjective
-            nominalization (indicating much more human-like behavior) and
-            slightly outperforms the baseline in entity tracking. In a
-            past-tense formation, the sleep model seems actually negatively
-            correlated with humans, indicating the opposite behavior. In terms
-            of perplexity, baseline models far outperform sleep models.
+            <a href="#fig:babylm_eval">Figure 3</a> shows both BabyLM evaluation
+            accuracy and perplexity for the two baseline models and a sleep
+            model. Both baseline models show similar performance, meaning our
+            hyperparameter configuration successfully mimics multi-epoch
+            training. Interestingly, performance is mixed across different
+            linguistic tasks. This shows the effect of the replay buffer. The
+            sleep model is learning the linguistic phenomena that commonly
+            appear in the buffer, but not the others.
           </p>
         </section>
 
         <section class="section" id="methods">
           <p class="section-label">04 - Methods</p>
           <h2>Methods</h2>
+          <figure class="figure" id="fig:sleep_mech">
+            <img
+              src="assets/sleep_mechanism_transparent.png"
+              alt="Diagram of the sleep mechanism."
+            />
+            <figcaption>Figure 4: One phase in the sleep mechanism.</figcaption>
+          </figure>
           <p>
             <strong>Dataset.</strong> We train on the BabyLM 100M word corpus, a
             benchmark designed to approximate the linguistic input a child
             receives by age 13. The corpus blends two domains: transcribed
-            speech (roughly 56%), drawn from movie and TV subtitles, educational
-            video transcripts, adult-child conversation recordings, and
-            telephone dialogues; and child-directed written language (44%),
-            including simplified encyclopedias, children's books, and literary
-            texts. This composition reflects how hearing children actually
-            encounter language: predominantly through spoken interaction,
-            supplemented by reading.
+            speech (56%) and child-directed written language (44%). This
+            composition reflects how children encounter language: predominantly
+            through spoken interaction, supplemented by reading. We further
+            split this dataset into train and validation sets.
           </p>
           <p>
             <strong>Model.</strong> We use a small RoBERTa-PreLayerNorm model
@@ -287,11 +287,20 @@
             while still capturing meaningful training dynamics.
           </p>
           <p>
+            <strong>Repository.</strong> Due to similarities in goal and
+            implementation, we build upon the code of
+            <a href="#references">Diehl Martinez et. al.</a>, found on their
+            <a href="https://github.com/codebyzeb/CLIMB">GitHub</a>, for our
+            training pipeline. However, the sleep mechanism and our
+            implementation of it are novel.
+          </p>
+          <p>
             <strong>Sleep-Consolidated Training.</strong> The core of our
             approach replaces the standard multi-epoch training loop with a
-            sequence of alternating wake and sleep phases, repeated for a fixed
-            number of cycles. The full dataset is partitioned into equally-sized
-            folds, one per cycle.
+            sequence of alternating wake and sleep phases (see
+            <a href="#fig:sleep_mech">Figure 4</a>), repeated for a fixed number
+            of cycles. The full dataset is partitioned into equally-sized folds,
+            one per cycle.
           </p>
           <p>
             During a <strong>wake phase</strong>, the model processes a single
@@ -324,14 +333,25 @@
             training.
           </p>
           <p>
-            <strong>Ablation Studies.</strong> To isolate the contribution of
-            each component, we test three ablation conditions: replacing
-            difficulty-based replay with random sample selection; setting the
-            replay ratio to 1.0, so the sleep phase trains on all wake data
-            rather than a difficult subset; and disabling context-augmented
-            padding entirely, training the sleep phase on the original sample
-            order.
+            <strong>Replay Strategy Studies. </strong>
+            During the sleep phase, high-loss clips are selected for replay. To
+            test the effect of the selection, we test three selection
+            strategies:
           </p>
+          <ol>
+            <li>
+              <em>Random Replay. </em>Clips from the wake phase are selected
+              uniformly at random for the buffer.
+            </li>
+            <li>
+              <em>Weighted Replay. </em>Clips are selected at random, but higher
+              loss clips are more likely to be selected.
+            </li>
+            <li>
+              <em>Strict Replay. </em>Only the highest loss clips are selected.
+            </li>
+          </ol>
+
           <p>
             <strong>Evaluation.</strong> We compare against a multi-epoch
             baseline matched by total training steps rather than epochs,
@@ -370,23 +390,25 @@
             Firstly, in our hyperparameter sweep, several results were
             counter-intuitive, showing a
             <strong>divergence from multi-epoch training.</strong>
-            Of particular interest is the replay ratio, as our results from both
-            the sweep and the replay strategy experiments show that training a
-            language model on a smaller proportion of the highest-loss clips
-            leads to improved performance. This supports our hypothesis that in
-            a multi-epoch training schedule, steps are wasted by training over
-            easier samples.
+            Of particular interest is the replay ratio, as our results from the
+            replay strategy experiments show that training a language model on a
+            smaller proportion of the highest-loss clips leads to improved
+            performance. This supports our hypothesis that in a multi-epoch
+            training schedule, steps are wasted by training over easier samples.
           </p>
           <p>
             Additionally, in terms of linguistic understanding, results are
             inconclusive. While sleep-like training improved performance on some
             tasks, multi-epoch models fared better on others. This may have to
-            do with the model overfitting on data in the replay buffer. If
+            do with the model overfitting on particular linguistic phenomena
+            commonly found in the replay buffer. More analysis of which samples
+            are chosen for replay is needed.
+            <!-- If
             samples containing examples of adjective nominalization are more
             likely to be selected, then naturally, the sleep model would perform
             better on that task. Conversely, if high-loss samples with
             past-tense formations happened to exhibit non-native behaviors, this
-            would lead to the negative correlation seen in Figure 3.
+            would lead to the negative correlation seen in Figure 3. -->
           </p>
           <p>
             We have several hypotheses as to why performance of sleep models
@@ -397,13 +419,23 @@
             >
             This would lead to catastrophic forgetting, causing the model to
             become worse at generalizing to unseen data and explaining the high
-            test perplexities. To fix this, we could take inspiration from
-            another process that happens during sleep as a part of memory
-            consolidation: <strong>synaptic homeostasis.</strong> During waking
-            hours, synapses are constantly strengthening and firing strongly,
-            making it easier to learn and encode new information. However, this
-            comes with a high resource cost; stronger synaptic connections need
-            more energy and place extra stress on neurons (<a href="#references"
+            test perplexities.
+          </p>
+          <p>
+            Another explanation could be in the
+            <strong>selection of samples for the replay buffer. </strong>
+            It's possible that the highest-loss samples contain random noise
+            from the dataset that hinders learning rather than helps it.
+          </p>
+          <p>
+            In the future, to address the issue of overfitting and forgetting,
+            we could take inspiration from another process that happens during
+            sleep as a part of memory consolidation:
+            <strong>synaptic homeostasis.</strong> During waking hours, synapses
+            are constantly strengthening and firing strongly, making it easier
+            to learn and encode new information. However, this comes with a high
+            resource cost; stronger synaptic connections need more energy and
+            place extra stress on neurons (<a href="#references"
               >Tononi & Cirelli, 2014</a
             >). Additionally, neurons with stronger synaptic connections may
             fire for random chance, effectively wasting resources (<a
@@ -413,19 +445,17 @@
             strengthened and consolidated, while less important connections are
             reduced or even pruned (<a href="#references"
               >Tononi & Cirelli, 2014</a
-            >). In the future, we will attempt to implement such a mechanism
-            into the sleep mechanism by freezing weights in the model and
-            manipulating learning rates. This would simulate reduced plasticity
-            and serve to "lock in" information learned in earlier folds of the
-            dataset. Another explanation could be in the selection of samples
-            for the replay buffer. Currently, we use model training loss to
-            measure difficulty, and assume that higher difficulty samples will
-            be most helpful for learning. However, it's possible that the
-            highest-loss samples contain random noise from the dataset that
-            hinders learning rather than help it. Future studies could explore
-            more nuanced ways to measure how helpful a sample would be for
-            learning. Multi-epoch learning, while effective for LM training, is
-            not cognitively-plausible or comparable to human learning. While our
+            >). We will attempt to implement such a mechanism into the sleep
+            mechanism by freezing weights in the model and manipulating learning
+            rates. This would simulate reduced plasticity and serve to "lock in"
+            information learned in earlier folds of the dataset. Future studies
+            could also explore more nuanced ways to measure how helpful a sample
+            would be for learning, improving upon the selection process for the
+            replay buffer to prevent overfitting to noise.
+          </p>
+          <p>
+            Multi-epoch learning, while effective for LM training, is not
+            cognitively-plausible or comparable to human learning. While our
             project has so far been unsuccessful in providing a
             cognitively-plausible, sleep-inspired alternative, it has produced
             promising results. We hope that in continuing this project, we may
@@ -443,7 +473,7 @@
               display: flex;
               flex-direction: column;
               gap: 10px;
-              font-size: 1.05rem;
+              font-size: 0.85rem;
               line-height: 1.75;
               color: #3a4455;
             "
@@ -493,6 +523,14 @@
             <li>
               Liu, Y., et al. (2019). RoBERTa: A robustly optimized BERT
               pretraining approach. <em>arXiv</em>:1907.11692.
+            </li>
+            <li>
+              Diehl Martinez, R., et al. (2023). CLIMB – Curriculum Learning for
+              Infant-inspired Model Building.
+              <em
+                >Proceedings of the BabyLM Challenge at the 27th Conference on
+                Computational Natural Language Learning</em
+              >, 112-127.
             </li>
             <li>
               Warstadt, A., et al. (2023). Findings of the BabyLM Challenge:
