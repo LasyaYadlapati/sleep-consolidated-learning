@@ -193,14 +193,22 @@
             to overfit.
           </p>
           <p>
-            Replay ratio is also positively correlated, which is also
+            Replay ratio is not significantly correlated, which is also
             surprising! The replay ratio governs what proportion of the data is
             selected for replay, i.e. how much of the original data the model
-            sees in its 'dreams'. Lower replay ratio means less data is
-            included. This means there are more data points which the model sees
-            only once, and less that it replays during sleep. Classically, this
-            might be expected to cause overfitting, but in this case, it seems
-            to improve generalization.
+            sees in its 'dreams'. Higher replay ratio means more data is
+            included. This means it affects how many data points the model sees
+            only once, and how many it replays during sleep. We notice that it
+            shows close to zero correlation, but has high importance. This
+            indicates that it has a more complex relationship with model
+            performance, potentially due to interactions with other parameters.
+          </p>
+          <p>
+            Contextualization is also of low/close to zero correlation. This
+            parameter governs whether or not samples in the replay buffer are
+            shuffled and recontextualized, which has been shown to improve
+            model generalization. However, in our case, it seems to have a more
+            complex effect.
           </p>
           <h3>Replay Experiments</h3>
           <figure class="figure">
