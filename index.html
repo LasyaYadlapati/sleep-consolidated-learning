@@ -418,9 +418,9 @@
           <p>
             We have several hypotheses as to why performance of sleep models
             falls so short of baselines. For one, the model could be
-            <strong
+            <em
               >overwriting information learned in past folds with new data from
-              a later fold.</strong
+              a later fold.</em
             >
             This would lead to catastrophic forgetting, causing the model to
             become worse at generalizing to unseen data and explaining the high
@@ -428,7 +428,7 @@
           </p>
           <p>
             Another explanation could be in the
-            <strong>selection of samples for the replay buffer. </strong>
+            <em>selection of samples for the replay buffer. </em>
             It's possible that the highest-loss samples contain random noise
             from the dataset that hinders learning rather than helps it.
           </p>
@@ -436,7 +436,7 @@
             <strong>Next Steps. </strong>In the future, to address the issue of overfitting and forgetting,
             we could take inspiration from another process that happens during
             sleep as a part of memory consolidation:
-            <strong>synaptic homeostasis.</strong> During waking hours, synapses
+            <em>synaptic homeostasis.</em> During waking hours, synapses
             are constantly strengthening and firing strongly, making it easier
             to learn and encode new information. However, this comes with a high
             resource cost; stronger synaptic connections need more energy and
