@@ -49,7 +49,7 @@ body {
 }
 
 .cover-title {
-    font-size: clamp(2rem, 5vw, 3.4rem);
+    font-size: 3.5rem;
     font-weight: 400;
     color: #f5efe0;
     margin-bottom: 20px;
@@ -85,14 +85,14 @@ body {
 
 .cover-button {
     font-family: 'Courier New', monospace;
-    font-size: 12px;
+    font-size: 13px;
     text-transform: uppercase;
     text-decoration: none;
     color: rgba(212, 175, 80);
     border: 2px solid rgba(212, 175, 80);
     padding: 10px 24px;
     border-radius: 10px;
-    font-weight: 550;
+    font-weight: 600;
     transition: background 0.2s, color 0.2s, border-color 0.2s;
 }
 
