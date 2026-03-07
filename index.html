@@ -585,13 +585,15 @@
           if (entry.isIntersecting) {
             tocLinks.forEach((link) => link.classList.remove("active"));
             const active = document.querySelector(
-              `.toc-list a[href="#${entry.target.id}"]`,
+              `.toc-list a[href="#${entry.target.id}"]`
             );
             if (active) active.classList.add("active");
           }
         });
       },
-      { rootMargin: "-30% 0px -60% 0px" },
+      {
+        threshold: 0.4
+      }
     );
 
     sections.forEach((section) => observer.observe(section));
