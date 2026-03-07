@@ -195,7 +195,7 @@
           <figure class="figure" id="fig:sweep_para">
             <img
               src="assets/sweep_para_results.png"
-              alt="Importance and correlation of each hyperparameter with respect to mean test perplexity (loss)."
+              alt="Bar chart showing the importance and correlation of each sleep hyperparameter (number of phases, sleep duration, replay ratio, contextualization) with respect to mean test perplexity."
             />
             <figcaption>
               Figure 1: Importance and correlation of sleep hyperparameters
@@ -229,7 +229,7 @@
           <figure class="figure" id="fig:replay_results">
             <img
               src="assets/replay_strat_results.png"
-              alt="Figure 2: Results from the replay strategy experiments."
+              alt="Grouped bar chart comparing three replay strategies (random, weighted, strict) on mean test perplexity and BabyLM evaluation accuracy."
             />
             <figcaption>
               Figure 2: Results from the replay strategy experiments.
@@ -255,7 +255,7 @@
           <figure class="figure" id="fig:babylm_eval">
             <img
               src="assets/babylm_eval.png"
-              alt="Comparison between baseline and sleep models."
+              alt="Table and bar chart comparing baseline multi-epoch models against the sleep model on BabyLM linguistic evaluation tasks and test perplexity."
             />
             <figcaption>
               Figure 3: Language Understanding (BabyLM) and Perplexity
@@ -280,7 +280,7 @@
           <figure class="figure" id="fig:sleep_mech">
             <img
               src="assets/sleep_mechanism_transparent.png"
-              alt="Diagram of the sleep mechanism."
+              alt="Flowchart illustrating one phase of the sleep mechanism: data is split into folds, the model trains on a fold during the wake phase, high-loss samples are selected into a replay buffer, and the model consolidates by training on those samples during the sleep phase."
             />
             <figcaption>Figure 4: One phase in the sleep mechanism.</figcaption>
           </figure>
