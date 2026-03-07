@@ -152,25 +152,38 @@
             rather than fighting forgetting, we ask whether sleep-like
             consolidation can improve sample efficiency during pretraining
             itself.
-            <strong
+            <em
               >What happens if a language model is trained the way humans learn,
               processing each sample only once but pausing between data blocks
-              to consolidate what was hardest?</strong
-            >Answering this question could help
-            <strong
+              to consolidate what was hardest?</em
+            >
+            Answering this question could help
+            <em
               >lower the costs of pretraining and improve effectiveness of
-              language models for computational linguists.</strong
+              language models for computational linguists.</em
             >
           </p>
           <p>
-            In this project, we build and test a novel pretraining strategy for
-            large language models. We evaluate the resulting models on both
-            next-token prediction (perplexity) and more complex linguistic
-            tasks. We also analyze the effects of different portions of our
-            implementation with hyperparameter sweeps and experiments. We do not
-            attempt to build useable chatbots; this research is focused on
-            building more data-efficient, cognitively-plausible models that can
-            be used as models for human language learning.
+            <strong>Project Scope. </strong>In this project, we build and test a
+            novel pretraining strategy for large language models. We evaluate
+            the resulting models on both next-token prediction (perplexity) and
+            more complex linguistic tasks. We also analyze the effects of
+            different portions of our implementation with hyperparameter sweeps
+            and experiments. We do not attempt to build useable chatbots; this
+            research is focused on building more data-efficient,
+            cognitively-plausible models that can be used as models for human
+            language learning.
+          </p>
+          <p>
+            <strong>Repository/Contributions. </strong> Due to similarities in
+            goal and implementation, we build upon the code of
+            <a href="#references">Diehl Martinez et. al.</a>
+            (<a href="https://github.com/codebyzeb/CLIMB">GitHub</a>), for our
+            training pipeline. We reuse their data preprocessing and model
+            loading scripts. However, we contribute a novel data loading
+            strategy and training schedule, which we dub the
+            <a href="#methods"><em>sleep mechanism</em></a
+            >. More info on our specific contributions can be found in our project repository.
           </p>
         </section>
 
@@ -285,14 +298,6 @@
             an intermediate size of 2048. The compact scale allows us to run
             thorough hyperparameter sweeps under a realistic compute budget
             while still capturing meaningful training dynamics.
-          </p>
-          <p>
-            <strong>Repository.</strong> Due to similarities in goal and
-            implementation, we build upon the code of
-            <a href="#references">Diehl Martinez et. al.</a>, found on their
-            <a href="https://github.com/codebyzeb/CLIMB">GitHub</a>, for our
-            training pipeline. However, the sleep mechanism and our
-            implementation of it are novel.
           </p>
           <p>
             <strong>Sleep-Consolidated Training.</strong> The core of our
