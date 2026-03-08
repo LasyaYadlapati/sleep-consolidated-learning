@@ -24,7 +24,7 @@
         font-size: 20px;
     }
     .cover-title {
-        font-size: 2rem;
+        font-size: 3rem;
     }
 
     .cover-one-liner {
@@ -32,6 +32,11 @@
     }
 
     .cover-people {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .cover-links {
         flex-direction: column;
         gap: 10px;
     }
@@ -82,7 +87,7 @@ body {
 }
 
 .cover-title {
-    font-size: 3.5rem;
+    font-size: 3rem;
     font-weight: 400;
     color: #f5efe0;
     margin-bottom: 20px;
