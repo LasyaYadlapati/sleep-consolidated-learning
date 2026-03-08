@@ -130,18 +130,17 @@
             humans. Standard training exposes the model to the same dataset tens
             to thousands of times in forward passes called <em>epochs</em>.
             Models will see every data point in every epoch, even if they are
-            unhelpful for its learning. In contrast, a human does not need to
-            relive every experience since birth in order to learn. The high
-            training costs and differences in how humans and models learn makes
-            it hard for researchers to use LLMs as cognitive models for language
-            learning.
+            unhelpful for its learning. Humans, by contrast, do not need to
+            relive every experience since birth to learn. These differences and
+            high training costs make it hard for researchers to use LLMs as
+            cognitive models for language learning.
           </p>
           <p>
-            However, humans do revisit important and surprising memories during
-            sleep. Neuroscientists have established that sleep is an active
-            process of memory consolidation, not mere rest. It's thought to be
-            central to how humans acquire complex cognitive skills, including
-            language, from comparatively limited input.
+            Humans do, however, revisit important memories during sleep.
+            Neuroscientists have established that sleep is an active process of
+            memory consolidation, thought to be central to how humans acquire
+            complex cognitive skills, including language, from comparatively
+            limited input.
           </p>
           <!-- <p>
             Sleep also performs a kind of neural housekeeping. During the day,
@@ -154,14 +153,13 @@
             learning.
           </p> -->
           <p>
-            We believe this is a principle worth importing into language
-            modeling. Prior sleep-inspired work has focused mainly on using
-            replay to preserve old knowledge as models learn new tasks. However,
-            rather than fighting forgetting, we ask whether sleep-like
-            consolidation can improve sample efficiency during pretraining
-            itself.
+            We believe this principle is worth importing into language modeling.
+            Prior sleep-inspired work has focused mainly on using replay to
+            preserve old knowledge during new tasks. Instead, we ask whether
+            sleep-like consolidation can improve sample efficiency during
+            pretraining itself:
             <em
-              >What happens if a language model is trained the way humans learn,
+              >what happens if a language model is trained the way humans learn,
               processing each sample only once but pausing between data blocks
               to consolidate what was hardest?</em
             >
@@ -172,15 +170,13 @@
             >
           </p>
           <p>
-            <strong>Project Scope. </strong>In this project, we build and test a
-            novel pretraining strategy for large language models. We evaluate
-            the resulting models on both next-token prediction (perplexity) and
-            more complex linguistic tasks. We also analyze the effects of
-            different portions of our implementation with hyperparameter sweeps
-            and experiments. We do not attempt to build useable chatbots; this
-            research is focused on building more data-efficient,
-            cognitively-plausible models that can be used as models for human
-            language learning.
+            <strong>Project Scope. </strong>We build and test a novel
+            pretraining strategy for large language models, evaluating on both
+            next-token prediction (perplexity) and more complex linguistic
+            tasks, with hyperparameter sweeps and experiments. We do not attempt
+            to build usable chatbots; this research is targets more
+            data-efficient, cognitively-plausible models for computational
+            linguistics.
           </p>
           <p>
             <strong>Repository/Contributions. </strong> Our codebase is
@@ -188,7 +184,7 @@
             <a href="https://github.com/codebyzeb/CLIMB">CLIMB repository</a>
             by <a href="#references">Diehl Martinez et. al.</a> We reuse their
             data preprocessing and model loading scripts. Our contributions
-            include the loss-weighted replay buffer, the wake–sleep training
+            include the loss-weighted replay buffer, the wake-sleep training
             schedule (the <a href="#methods"><em>sleep mechanism</em></a
             >), and the associated experiment configs. Details are in our
             <a href="https://github.com/Peter-Shamoun/CLIMB-Sleep"
@@ -222,7 +218,7 @@
           </p>
           <p>
             Replay ratio is not significantly correlated, which is also
-            surprising!While it shows close to zero correlation, it also has
+            surprising! While it shows close to zero correlation, it also has
             high importance. This indicates that replay ratio has a more complex
             relationship with model performance, potentially due to interactions
             with other parameters.
@@ -355,15 +351,15 @@
           </p>
           <ol>
             <li>
-              <em>Random Replay. </em>Clips from the wake phase are selected
+              <em>Random Replay: </em>Clips from the wake phase are selected
               uniformly at random for the buffer.
             </li>
             <li>
-              <em>Weighted Replay. </em>Clips are selected at random, but higher
+              <em>Weighted Replay: </em>Clips are selected at random, but higher
               loss clips are more likely to be selected.
             </li>
             <li>
-              <em>Strict Replay. </em>Only the highest loss clips are selected.
+              <em>Strict Replay: </em>Only the highest loss clips are selected.
             </li>
           </ol>
 
@@ -585,15 +581,15 @@
           if (entry.isIntersecting) {
             tocLinks.forEach((link) => link.classList.remove("active"));
             const active = document.querySelector(
-              `.toc-list a[href="#${entry.target.id}"]`
+              `.toc-list a[href="#${entry.target.id}"]`,
             );
             if (active) active.classList.add("active");
           }
         });
       },
       {
-        threshold: 0.4
-      }
+        threshold: 0.4,
+      },
     );
 
     sections.forEach((section) => observer.observe(section));
