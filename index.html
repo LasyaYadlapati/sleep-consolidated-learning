@@ -292,7 +292,7 @@
           <p>
             <strong>Dataset.</strong> We train on the BabyLM 100M word corpus, a
             benchmark designed to approximate the linguistic input a child
-            receives by age 13. The corpus blends two domains: transcribed
+            receives by age 13 (<a href="#references">Warstadt, A., et al. (2023)</a>). The corpus blends two domains: transcribed
             speech (56%) and child-directed written language (44%). This
             composition reflects how children encounter language: predominantly
             through spoken interaction, supplemented by reading. We further
@@ -301,7 +301,7 @@
           <p>
             <strong>Model.</strong> We use a small RoBERTa-PreLayerNorm model
             with 8 hidden layers, 8 attention heads, a hidden size of 256, and
-            an intermediate size of 2048. The compact scale allows us to run
+            an intermediate size of 2048 (<a href"#references">Liu, Y., et al. (2019)</a>). The compact scale allows us to run
             thorough hyperparameter sweeps under a realistic compute budget
             while still capturing meaningful training dynamics.
           </p>
